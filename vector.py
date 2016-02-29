@@ -1,20 +1,24 @@
 
 class functionPoints:
-    vectors={(0,0)}
+    vectors=[(0,0)]
+    indices=[]
     domainMin=100000000000
     domainMax=-100000000000
     rangeMin=100000000000
     rangeMax=-100000000000
 
     def __init__(self):
+        self.vectors.pop(0)
         pass
 
     def addAll(self,vectors):
         for vector in vectors:
-            self.vectors.add(vector)
+            self.indices.append(vector[0])
+            self.vectors.append(vector)
 
     def add(self,vector):
-        self.vectors.add(vector)
+        self.indices.append(vector[0])
+        self.vectors.append(vector)
 
     def getDomain(self):
         for vector in self.vectors:
@@ -54,12 +58,14 @@ class functionPoints:
         if(SSSEargs[1]>0 and SSSEargs[0]<SSSEargs[2]):
             print "positive Step"
             while i<=SSSEargs[2]:
-                self.vectors.add((i,magnitude))
+                self.indices.append(i)
+                self.vectors.append((i,magnitude))
                 i=i+SSSEargs[1]
         elif (SSSEargs[1]<0 and SSSEargs[2]<SSSEargs[0]):
             print "Negative Step"
             while i>=SSSEargs[2]:
-                self.vectors.add((i,magnitude))
+                self.indices.append(i)
+                self.vectors.append((i,magnitude))
                 i=i+SSSEargs[1]
         elif (SSSEargs[1]==0):
             print "Step Size Must be None-Zero!"
@@ -75,12 +81,14 @@ class functionPoints:
         if(SSSEargs[1]>0 and SSSEargs[0]<SSSEargs[2]):
             print "positive Step"
             while i<=SSSEargs[2]:
-                self.vectors.add((i,0))
+                self.indices.append(i)
+                self.vectors.append((i,0))
                 i=i+SSSEargs[1]
         elif (SSSEargs[1]<0 and SSSEargs[2]<SSSEargs[0]):
             print "Negative Step"
             while i>=SSSEargs[2]:
-                self.vectors.add((i,0))
+                self.indices.append(i)
+                self.vectors.append((i,0))
                 i=i+SSSEargs[1]
         elif (SSSEargs[1]==0):
             print "Step Size Must be None-Zero!"
@@ -96,12 +104,14 @@ class functionPoints:
         if(SSSEargs[1]>0 and SSSEargs[0]<SSSEargs[2]):
             print "positive Step"
             while i<=SSSEargs[2]:
-                self.vectors.add((i,1))
+                self.indices.append(i)
+                self.vectors.append((i,1))
                 i=i+SSSEargs[1]
         elif (SSSEargs[1]<0 and SSSEargs[2]<SSSEargs[0]):
             print "Negative Step"
             while i>=SSSEargs[2]:
-                self.vectors.add((i,1))
+                self.indices.append(i)
+                self.vectors.append((i,1))
                 i=i+SSSEargs[1]
         elif (SSSEargs[1]==0):
             print "Step Size Must be None-Zero!"
@@ -112,3 +122,50 @@ class functionPoints:
         else:
             print "End point must be greater than Start for Positive steps"
 
+    def getYforX(self,x):
+        something = [vector[1] for vector in self.vectors if vector[0] == x]
+        return something
+
+    def doesListContain(self,list,vec):
+        item=0.0
+        for item in list:
+            if(item is vec):
+                return True
+
+        return False
+
+    def splitIntoEvenAndOdd(self):
+        even=[(0,0)]
+        odd=[(0,0)]
+        even.pop(0)
+        odd.pop(0)
+        print self.indices
+        for indice in self.indices:
+            if(indice!=float(0)):
+                if(indice):
+                    if -indice in self.indices:
+                        print "contains works"
+                        even.append((indice,float(self.getYforX(indice)+self.getYforX(-indice))/float(2)))
+                    else:
+                        print str(-indice)+" is not a valid index"
+                        even.append((indice,float(self.getYforX(indice))/float(2)))
+                        even.append((-indice,float(self.getYforX(indice))/float(2)))
+        if 0 in self.indices:
+            even.append((0,float(self.getYforX(0))))
+        else:
+            even.append((0,0))
+
+        for indice in self.indices:
+            if(indice):
+                if -indice in self.indices:
+                    print "contains works"
+                    odd.append((indice,float(self.getYforX(indice)-self.getYforX(-indice))/float(2)))
+                else:
+                    odd.append((indice,-float(self.getYforX(indice))/float(2)))
+                    odd.append((-indice,-float(self.getYforX(indice))/float(2)))
+
+        return [even,odd]
+
+    def clear(self):
+        self.vectors=[(0,0)]
+        self.vectors.pop(0)

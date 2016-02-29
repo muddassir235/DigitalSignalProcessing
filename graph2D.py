@@ -52,9 +52,7 @@ class graph2D:
 
 
     def _init_(self,vectors):
-        self.vectors=vector.functionPoints()
-        self.vectors.addAll(vectors)
-
+        self.vectors=vectors
         self.points=self.vectors.getVector()
         domain=self.vectors.getDomain()
         self.xStart=domain[0]
@@ -106,8 +104,6 @@ class graph2D:
             xPixelCoordinate=self.xOriginPixel+int(float(point[0])/float(self.xPixeltoPointFactor))
             yPixelCoordinate=self.yOriginPixel-int(float(point[1])/float(self.yPixeltoPointFactor))
             self.pointToPixelCoordinates.add((xPixelCoordinate,yPixelCoordinate,point[0],point[1]))
-            print "(xPixelCoordinate, yPixelCoordinate)"+" "+"("+str(xPixelCoordinate)+", "+str(yPixelCoordinate)+")"
-
         print "(xOrigin, yOrigin) : "+" "+"("+str(self.xOriginPixel)+", "+str(self.yOriginPixel)+")"
         print "(xPixeltoPoint, yPixeltoPoint) : "+" "+"("+str(self.xPixeltoPointFactor)+", "+str(self.yPixeltoPointFactor)+")"
 
@@ -145,15 +141,15 @@ class graph2D:
                   pygame.draw.aaline(self.screen,self.BLUE,[pointToPixelCoordinate[0],self.yOriginPixel],[pointToPixelCoordinate[0],pointToPixelCoordinate[1]],True)
                   # Draw a circle
                   pygame.draw.circle(self.screen, self.BLUE, [pointToPixelCoordinate[0], pointToPixelCoordinate[1]], 4)
-                  font=pygame.font.SysFont(self.fontFile,20)
-                  text= font.render("("+str(pointToPixelCoordinate[2])+", "+str(pointToPixelCoordinate[3])+")",True,self.RED)
-                  textXPos=pointToPixelCoordinate[0]-text.get_width()/2
-                  textYPos=10
-                  if(pointToPixelCoordinate[3]>=0):
-                      textYPos=pointToPixelCoordinate[1]-text.get_height()-10
-                  else:
-                      textYPos=pointToPixelCoordinate[1]+text.get_height()
-                  self.screen.blit(text,(textXPos,textYPos))
+                  # font=pygame.font.SysFont(self.fontFile,20)
+                  # text= font.render("("+str(pointToPixelCoordinate[2])+", "+str(pointToPixelCoordinate[3])+")",True,self.RED)
+                  # textXPos=pointToPixelCoordinate[0]-text.get_width()/2
+                  # textYPos=10
+                  # if(pointToPixelCoordinate[3]>=0):
+                  #     textYPos=pointToPixelCoordinate[1]-text.get_height()-10
+                  # else:
+                  #     textYPos=pointToPixelCoordinate[1]+text.get_height()
+                  # self.screen.blit(text,(textXPos,textYPos))
             # # Go ahead and update the screen with what we've drawn.
             # This MUST happen after all the other drawing commands.
             pygame.display.flip()
